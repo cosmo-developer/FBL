@@ -5,7 +5,7 @@ xor ax,ax
 mov ds,ax
 cld
 %include 'asmlib/video.S'
-%include 'asmlib/diskio.S'
+%include 'asmlib/diskIO.S'
 %include 'asmlib/keyboard.S'
 
 

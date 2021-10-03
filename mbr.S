@@ -5,7 +5,7 @@ mov ds,ax
 cld
 jmp start_16
 
-%include 'asmlib/diskio.S'
+%include 'asmlib/diskIO.S'
 %include 'asmlib/video.S'
 %include 'asmlib/serialIO.S'
 
