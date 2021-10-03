@@ -1,8 +1,19 @@
+;@param #1 mode
+initialize_graphics:
+    push bp
+    mov bp,sp
+    push ax
+    mov ax,[bp+4]
+    mov ah,0x00
+    int 0x10
+    pop ax
+    pop bp
+    ret
 
 ;@param #1 x
 ;@param #2 y
 ;@param #3 page number
-;@param #3 color
+;@param #4 color
 put_pixel:
     push bp
     mov bp,sp
@@ -23,5 +34,15 @@ put_pixel:
     pop cx
     pop bx
     pop ax
+    pop bp
+    ret
+;@param #1 x
+;@param #2 y
+;@param #3 width
+;@param #4 height
+draw_box:
+    push bp
+    mov bp,sp
+    
     pop bp
     ret

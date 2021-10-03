@@ -36,34 +36,29 @@ install_os:
 
 start_kernel16:
 	call clear_screen
-	mov ah,0x00
-	mov al,0xd
-	int 0x10
-	push word msg
-	call println
-	push word user_msg
-	call println
-	call take_input_while_not_enter
-
-	int 0x10
-	push word 0x00f0;color
-	push word 0x0000;page
-	push word 0x0020;y
-	push word 0x0010;x
-	set_color:
+	push ax
+	push word 0x0010
+	call initialize_graphics
+	pop ax
+	start:
+	push word 0x0007
+	push word 0x0000
+	push word [y]
+	push word [x]
 	call put_pixel
-	pop si
-	pop si
-	pop si
+	add word [x],1
+	add word [y],1
+	pop ax
+	pop ax
+	pop ax
+	pop ax
+	jmp start
 
-
-	;call install_os
-	
 
 x:
-	dw 0x00
+	dw 0x0000
 y:
-	dw 0x00
+	dw 0x0000
 
 msg:
 	db "Kernel in 16 bit mode started",0xa,0xd,0x0
