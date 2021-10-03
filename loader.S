@@ -1,7 +1,7 @@
 [org 0x7c00]
 [bits 16]
 jmp start
-%include 'asmlib/video.S'
+%include 'asmlib/basicVideoService.S'
 start:
 	cli
 	call clear_screen
