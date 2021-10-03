@@ -31,22 +31,6 @@ print_string:
 	pop si
 	pop ax
 	ret
-
-set_cursor_pos:
-	
-
-set_cursor_shape:
-	push bp
-	mov bp,sp
-	push ax
-	push cx
-	mov ah,0x01
-	mov cx,[bp+4]
-	int 0x10
-	pop cx
-	pop ax
-	pop bp
-	ret
 	
 println:
 	push bp
