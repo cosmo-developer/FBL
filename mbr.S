@@ -7,12 +7,27 @@ jmp start_16
 
 %include 'asmlib/diskio.S'
 %include 'asmlib/video.S'
+%include 'asmlib/serialIO.S'
 
 mov bp,sp
 start_16:
 	call clear_screen
 	push word msg
 	call println
+	
+	push word 0x0003;character_size
+	push word 0x0001;stop_bits
+	push word 0x0000;select_parity
+	push word 0x0007;select_baud_rate
+	push word 0x0000;com port1
+	
+	call intialize_serial_com_port
+	
+	
+	push word msg;buffer address
+	push word 0x0000;com 1 port
+	call write_on_serial_com_port
+	
 	push word 0x7e00
 	push word 0x0000
 	push word 0x0000
