@@ -36,30 +36,15 @@ install_os:
 
 start_kernel16:
 	call clear_screen
-	mov ah,0x00
-	mov al,0xd
-	int 0x10
 	push word msg
 	call println
 	push word user_msg
 	call println
 	call take_input_while_not_enter
 
-	int 0x10
-	push word 0x00f0;color
-	push word 0x0000;page
-	push word 0x0020;y
-	push word 0x0010;x
-	set_color:
-	call put_pixel
-	pop si
-	pop si
-	pop si
 
-
-	;call install_os
+	call install_os
 	
-
 x:
 	dw 0x00
 y:
