@@ -3,7 +3,7 @@ nasm -f bin mbr.S -o ./bin/mbr.bin
 nasm -f bin space.S -o ./bin/space.bin
 nasm -f bin kernel16.S -o ./bin/kernel16.bin
 
-cat ./bin/mbr.bin ./bin/kernel16.bin ./bin/space.bin > ./bin/bootloader.bin
+cat ./bin/mbr.bin ./bin/kernel16.bin > ./bin/bootloader.bin
 
 dd if=./bin/bootloader.bin of=./build/bootloader.img
 
