@@ -1,4 +1,4 @@
-
+;@param #1 disk number 0x00 for first floppy and 0x80 for first hard drive
 reset_disk_system:
 	push bp
 	mov bp,sp

@@ -44,6 +44,7 @@ put_pixel:
 draw_box:
     push bp
     mov bp,sp
+	clc
 	sub sp,8
 	push ax
 	push dx
@@ -63,6 +64,9 @@ draw_box:
 	
 	draw_box_for_loop_start_x:
 		mov dx,[bp-2]
+		cmp dx,[bp-6]
+		jg draw_box_for_loop_start_y
+		
 		push word [bp+12];Color
 		push word 0x0000;Page
 		push word [bp-4];Y
@@ -84,15 +88,16 @@ draw_box:
 		pop si
 		
 		add word [bp-2],1
-		cmp dx,[bp-6]
-		jle draw_box_for_loop_start_x
+		jmp draw_box_for_loop_start_x
 		
 	draw_box_for_loop_start_y:
 		mov dx,[bp-4];y counter
+		cmp dx,[bp-8];y+HEIGHT
+		jg draw_box_end_section
 		push word [bp+12];Color
 		push word 0x0000;Page
 		push word [bp-4];Y
-		push word [bp-2];X
+		push word [bp+4];X
 		call put_pixel
 		pop si
 		pop si
@@ -102,7 +107,7 @@ draw_box:
 		push word [bp+12];Color
 		push word 0x0000;Page
 		push word [bp-4];Y
-		push word [bp-8];X+width
+		push word [bp-6];X+width
 		call put_pixel
 		pop si
 		pop si
@@ -110,10 +115,69 @@ draw_box:
 		pop si
 		
 		add word [bp-4],1
-		cmp dx,[bp-8]
-		jle draw_box_for_loop_start_y
+		jmp draw_box_for_loop_start_y
 	draw_box_end_section:
 	
+	pop dx
+	pop ax
+	add sp,8
+    pop bp
+    ret
+
+;@param x
+;@param y
+;@param width
+;@param height
+;@param color
+fill_box:
+	push bp
+    mov bp,sp
+	clc
+	sub sp,8
+	push ax
+	push dx
+	mov ax,[bp+4]
+	mov  word [bp-2],ax;xcounter
+	mov ax,[bp+6]
+	mov  word [bp-4],ax;ycounter
+	mov ax,[bp+8]
+	mov  word [bp-6],ax;width
+	mov ax,[bp+10]
+	mov  word [bp-8],ax;height
+	
+	mov ax,[bp+4]
+	add word [bp-6],ax
+	mov ax,[bp+6]
+	add word [bp-8],ax
+	fill_box_for_loop_start_x:
+		mov dx,[bp-2]; x counter
+		cmp dx,[bp-6]; x+Width
+		jg fill_box_for_loop_end_x
+		mov dx,[bp+6]
+		mov word [bp-4],dx
+		fill_box_for_loop_start_y:
+			mov dx,[bp-4];y counter
+			cmp dx,[bp-8]; y+height
+			jg fill_box_for_loop_end_y
+			
+			push word [bp+12];Color
+			push word 0x0000;Page
+			push word [bp-4];Y
+			push word [bp-2];X
+			call put_pixel
+			pop si
+			pop si
+			pop si
+			pop si
+			
+			add word [bp-4],1
+			jmp fill_box_for_loop_start_y
+		fill_box_for_loop_end_y:
+		
+		add word [bp-2],1
+		jmp fill_box_for_loop_start_x
+	fill_box_for_loop_end_x:
+		
 	pop dx
 	pop ax
 	add sp,8
