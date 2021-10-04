@@ -10,6 +10,7 @@ cld
 %include 'asmlib/diskIO.S'
 %include 'asmlib/keyboard.S'
 %include 'asmlib/graphics.S'
+%include 'asmlib/serialIO.S'
 
 
 install_os:
@@ -37,6 +38,19 @@ install_os:
 
 start_kernel16:
 	call clear_screen
+	
+	push word 0x0003;character_size
+	push word 0x0001;stop_bits
+	push word 0x0000;select_parity
+	push word 0x0007;select_baud_rate
+	push word 0x0000;com port1
+	
+	call intialize_serial_com_port
+	;Sending data to COMPort1
+	push word msg;buffer address
+	push word 0x0000;com 1 port
+	call write_on_serial_com_port
+	
 	push word msg
 	call println
 	push word user_msg

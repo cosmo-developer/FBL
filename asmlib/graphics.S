@@ -40,9 +40,82 @@ put_pixel:
 ;@param #2 y
 ;@param #3 width
 ;@param #4 height
+;@param #5 color
 draw_box:
     push bp
     mov bp,sp
-    
+	sub sp,8
+	push ax
+	push dx
+	mov ax,[bp+4]
+	mov  word [bp-2],ax;xcounter
+	mov ax,[bp+6]
+	mov  word [bp-4],ax;ycounter
+	mov ax,[bp+8]
+	mov  word [bp-6],ax;width
+	mov ax,[bp+10]
+	mov  word [bp-8],ax;height
+	
+	mov ax,[bp+4]
+	add word [bp-6],ax
+	mov ax,[bp+6]
+	add word [bp-8],ax
+	
+	draw_box_for_loop_start_x:
+		mov dx,[bp-2]
+		push word [bp+12];Color
+		push word 0x0000;Page
+		push word [bp-4];Y
+		push word [bp-2];X
+		call put_pixel
+		pop si
+		pop si
+		pop si
+		pop si
+		
+		push word [bp+12]
+		push word 0x0000
+		push word [bp-8]
+		push word [bp-2]
+		call put_pixel
+		pop si
+		pop si
+		pop si
+		pop si
+		
+		add word [bp-2],1
+		cmp dx,[bp-6]
+		jle draw_box_for_loop_start_x
+		
+	draw_box_for_loop_start_y:
+		mov dx,[bp-4];y counter
+		push word [bp+12];Color
+		push word 0x0000;Page
+		push word [bp-4];Y
+		push word [bp-2];X
+		call put_pixel
+		pop si
+		pop si
+		pop si
+		pop si
+		
+		push word [bp+12];Color
+		push word 0x0000;Page
+		push word [bp-4];Y
+		push word [bp-8];X+width
+		call put_pixel
+		pop si
+		pop si
+		pop si
+		pop si
+		
+		add word [bp-4],1
+		cmp dx,[bp-8]
+		jle draw_box_for_loop_start_y
+	draw_box_end_section:
+	
+	pop dx
+	pop ax
+	add sp,8
     pop bp
     ret
