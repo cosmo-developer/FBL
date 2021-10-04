@@ -1,9 +1,12 @@
 clear_screen:
+	push bp
+	mov bp,sp
 	push ax
 	mov ah,0x00
 	mov al,0x03
 	int 0x10
 	pop ax
+	pop bp
 	ret
 
 print_new_line:

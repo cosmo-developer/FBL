@@ -28,11 +28,11 @@ start_16:
 	push word 0x0000;com 1 port
 	call write_on_serial_com_port
 	
-	push word 0x7e00
-	push word 0x0000
-	push word 0x0000
-	push word 0x0002
-	push word 0x0002
+	push word 0x7e00;offset
+	push word 0x0000;base address
+	push word 0x0000;head 0 floppy 0
+	push word 0x0002;cylinder 0 sector 2
+	push word 0x0003;number of sector to read
 	call read_from_disk
 	jmp 0x7e00
 	
