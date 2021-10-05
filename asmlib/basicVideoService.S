@@ -1,3 +1,5 @@
+%ifndef basic_video_service_s
+%define basic_video_service_s
 clear_screen:
 	push bp
 	mov bp,sp
@@ -46,3 +48,5 @@ println:
 	pop si
 	pop bp
 	ret
+	
+%endif

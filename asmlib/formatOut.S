@@ -1,3 +1,5 @@
+%ifndef format_out_s
+%define format_out_s
 %include 'asmlib/video.S'
 
 count_digit:
@@ -29,3 +31,5 @@ print_number:
 	
 	pop ax
 	pop bp
+	
+%endif

@@ -1,3 +1,6 @@
+%ifndef graphics_s
+%define graphics_s
+
 ;@param #1 mode
 initialize_graphics:
     push bp
@@ -183,3 +186,5 @@ fill_box:
 	add sp,8
     pop bp
     ret
+
+%endif

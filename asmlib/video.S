@@ -1,3 +1,5 @@
+%ifndef video_s
+%define video_s
 ;@param #1 pagenumber
 ;@param #2 row(8 bit high part) column(8 bit low part)
 set_cursor_pos:
@@ -91,3 +93,4 @@ print_repeat:
 	pop bp
 	ret
 
+%endif

@@ -1,3 +1,5 @@
+%ifndef timing_s
+%define timing_s
 ;@param #1 High part of microseconds
 ;@param #2 Low part of microseconds
 delay_t:
@@ -15,3 +17,5 @@ delay_t:
 	pop cx
 	pop bp
 	ret
+
+%endif

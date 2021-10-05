@@ -10,51 +10,38 @@ cld
 %include 'asmlib/graphics.S'
 %include 'asmlib/serialIO.S'
 %include 'asmlib/video.S'
+%include 'asmlib/mouse.S'
+%include 'asmlib/util.S'
+%include 'asmlib/math.S'
+
 
 graphics_Kernel:
 	push si
 	
 	push word 0x0010
 	call initialize_graphics
-	push word 12;color
-	push word 25;height
-	push word 95;width
-	push word 7
-	push word 95
-	call fill_box
-	pop si
+	push word testmg
+	call println
+	mov bl,0x19
+	call init_mouse_driver
 	pop si
 	pop si
 	pop si
 	
-	push word 0x010F
-	push word 0x0000
-	call set_cursor_pos
+	push word 3
+	push word 2
+	call pow16
+	cmp ax,8
+	je print_if_success
+	jmp end_section
 	
-	mov ah,0x0e
-	
-	mov al,'I'
-	mov bh,0x00
-	mov bl,0xBC
-	int 0x10
-	mov al,'n'
-	mov bh,0x00
-	int 0x10
-	mov al,'s'
-	mov bh,0x00
-	int 0x10
-	mov al,'a'
-	mov bh,0x00
-	int 0x10
-	mov al,'l'
-	mov bh,0x00
-	int 0x10
-	mov al,'l'
-	mov bh,0x00
-	int 0x10
-	
+	print_if_success:
+	push word testmg
+	call println
 	pop si
+	end_section:
 	hlt
 
-
+testmg:
+	db "Hello World!",0x0a,0x0d,0x0
 times 2048-($-$$) db 0

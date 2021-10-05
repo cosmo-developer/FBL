@@ -1,4 +1,7 @@
+%ifndef disk_io_s
+%define disk_io_s
 ;@param #1 disk number 0x00 for first floppy and 0x80 for first hard drive
+%include 'asmlib/video.S'
 reset_disk_system:
 	push bp
 	mov bp,sp
@@ -90,3 +93,5 @@ reset_failed:
 	db "Disk Reset Failed!....",0xa,0xd,0x0
 disk_io_failure_msg:
 	db "Disk I/O Operation failed!",0xa,0xd,0x0
+	
+%endif

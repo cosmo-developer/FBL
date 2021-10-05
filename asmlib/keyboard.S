@@ -1,3 +1,5 @@
+%ifndef keyboard_s
+%define keyboard_s
 take_input:
 	push bp
 	mov sp,bp
@@ -60,3 +62,5 @@ take_input_while_not_enter:
 	pop ax
 	pop bp
 	ret
+	
+%endif

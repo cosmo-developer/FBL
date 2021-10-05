@@ -1,3 +1,5 @@
+%ifndef serial_io_s
+%define serial_io_s
 ;@param #1 com port
 ;@param #2 baud rate
 ;@param #3 parity non,odd,non,even
@@ -99,3 +101,5 @@ write_on_serial_com_port:
 
 serial_error_msg:
 	db "COM error!",0x0a,0x0d,0x0
+	
+%endif
