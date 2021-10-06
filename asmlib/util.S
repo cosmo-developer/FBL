@@ -59,45 +59,44 @@ count_digit:
 itoa:
 	push bp
 	mov bp,sp
-	sub sp,4
+	sub sp,2
 	push si
 	push di
 	push bx
-	mov di,itoa_buffer
-	mov word [bp-2],0;itoa_buffer counter
-	mov word [bp-4],0;number of digit
 	
-	;start
+	mov si,itoa_buffer
 	push word [bp+4]
 	call count_digit
-	mov [bp-4],ax
-	sub word [bp-4],1;lower than 1
+	sub ax,1
+	mov [bp-2],ax
 	pop bx
-	itoa_while_loop1_start:
-		push word [bp-4]
+	
+	itoa_while1_loop_start:
+		push word [bp-2]
 		push word [bp+4]
 		call get_digit_at
-		mov si,ax
-		mov ah,digit_ascii_table[si]
-		mov byte [di],ah
-		add di,1
-		sub word [bp-4],1
 		pop bx
 		pop bx
-		mov ax,[bp-4]
-		cmp ax,0
-		jg itoa_while_loop1_end
-		jmp itoa_while_loop1_start
-	itoa_while_loop1_end:
-	add di,1
-	mov byte [di],0x0
+		
+		mov bx,ax
+		mov di,bx
+		mov bl,0xAC
+		mov byte al,digit_ascii_table[di]
+		mov ah,0x0e
+		int 0x10
+		
+		cmp word [bp-2],0
+		je itoa_while1_loop_end
+		sub word [bp-2],1
+		jmp itoa_while1_loop_start
+	itoa_while1_loop_end:
+	add si,1
+	mov byte [si],0x0
 	mov ax,itoa_buffer
-	;end
-	
 	pop bx
 	pop di
 	pop si
-	add sp,4
+	add sp,2
 	pop bp
 	ret
 

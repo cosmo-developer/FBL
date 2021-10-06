@@ -60,6 +60,7 @@ multiply16:
 %macro div16 2
 	push dx
 	push cx
+	mov dx,0
 	mov ax,%1
 	mov cx,%2
 	div cx
@@ -70,6 +71,7 @@ multiply16:
 %macro mod16 2
 	push dx
 	push cx
+	mov dx,0
 	mov ax,%1
 	mov cx,%2
 	div cx

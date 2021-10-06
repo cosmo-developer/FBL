@@ -28,9 +28,16 @@ graphics_Kernel:
 	pop si
 	pop si
 	
-	push word 8596
+	push word 3
+	push word 2547
+	call get_digit_at
+	push ax
 	call itoa
-	push word ax
+	
+	jmp end_section
+	
+	success_section:
+	push word testmg
 	call println
 	
 	pop si
