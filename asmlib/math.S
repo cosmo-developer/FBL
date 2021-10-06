@@ -16,7 +16,7 @@ pow16:
 	pow16_while_loop1_start:
 		mov ax,[bp-2];mov counter into ax
 		cmp ax,[bp+6];compare counter with exponent
-		je pow16_while_loop1_end;if counter reaches exponent then jump in end of this while loop
+		jge pow16_while_loop1_end;if counter reaches exponent then jump in end of this while loop
 		push word [bp-4] ;Push base on stack as first argument to multiply16
 		push word [bp+4] ;Push base on stack as second argument to multiply16
 		call multiply16 ;return result*base
@@ -24,9 +24,16 @@ pow16:
 		pop bx
 		pop bx
 		add word [bp-2],1
-		
 	pow16_while_loop1_end:
 	mov ax,[bp-4];Save result in ax register
+	mov bx,[bp+6]
+	cmp bx,0
+	je power_is_zero_handler
+	jmp pow16_end_section
+	power_is_zero_handler:
+		mov ax,1
+	pow16_end_section:
+	
 	pop bx
 	add sp,4
 	pop bp
@@ -49,5 +56,27 @@ multiply16:
 	pop bx
 	pop bp
 	ret
+	
+%macro div16 2
+	push dx
+	push cx
+	mov ax,%1
+	mov cx,%2
+	div cx
+	pop cx
+	pop dx
+%endmacro
+
+%macro mod16 2
+	push dx
+	push cx
+	mov ax,%1
+	mov cx,%2
+	div cx
+	mov ax,dx
+	pop cx
+	pop dx
+%endmacro
+
 
 %endif

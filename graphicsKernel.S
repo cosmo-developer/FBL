@@ -28,16 +28,11 @@ graphics_Kernel:
 	pop si
 	pop si
 	
-	push word 2
-	push word 30
-	call pow16
-	cmp ax,900
-	je print_if_success
-	jmp end_section
-	
-	print_if_success:
-	push word testmg
+	push word 8596
+	call itoa
+	push word ax
 	call println
+	
 	pop si
 	end_section:
 	hlt

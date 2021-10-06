@@ -1,5 +1,6 @@
 %ifndef util_s
 %define util_s
+%include 'asmlib/math.S'
 ;@param #1 string buffer address end with 0x0 byte
 strlen:
 	push bp
@@ -54,26 +55,73 @@ count_digit:
 
 
 ;@param #1 integer number
+;Currently fault to be fixed
 itoa:
 	push bp
 	mov bp,sp
 	sub sp,4
+	push si
+	push di
+	push bx
+	mov di,itoa_buffer
 	mov word [bp-2],0;itoa_buffer counter
 	mov word [bp-4],0;number of digit
-	push si
-	push ax
+	
 	;start
 	push word [bp+4]
 	call count_digit
 	mov [bp-4],ax
-	pop si
-	
-	
-	
+	sub word [bp-4],1;lower than 1
+	pop bx
+	itoa_while_loop1_start:
+		push word [bp-4]
+		push word [bp+4]
+		call get_digit_at
+		mov si,ax
+		mov ah,digit_ascii_table[si]
+		mov byte [di],ah
+		add di,1
+		sub word [bp-4],1
+		pop bx
+		pop bx
+		mov ax,[bp-4]
+		cmp ax,0
+		jg itoa_while_loop1_end
+		jmp itoa_while_loop1_start
+	itoa_while_loop1_end:
+	add di,1
+	mov byte [di],0x0
+	mov ax,itoa_buffer
 	;end
-	pop ax
+	
+	pop bx
+	pop di
 	pop si
 	add sp,4
+	pop bp
+	ret
+
+
+;@param #1 number
+;@param #2 index of digit base is 0
+get_digit_at:
+	push bp
+	mov bp,sp
+	sub sp,2
+	push bx
+	
+	push word [bp+6]
+	push word 10
+	call pow16
+	mov bx,[bp+4]
+	mov [bp-2],ax
+	div16 bx,[bp-2]
+	mod16 ax,10
+	pop bx
+	pop bx
+	
+	pop bx
+	add sp,2
 	pop bp
 	ret
 
