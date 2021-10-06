@@ -28,10 +28,10 @@ graphics_Kernel:
 	pop si
 	pop si
 	
-	push word 3
 	push word 2
+	push word 30
 	call pow16
-	cmp ax,8
+	cmp ax,900
 	je print_if_success
 	jmp end_section
 	

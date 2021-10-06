@@ -1,7 +1,7 @@
 %ifndef disk_io_s
 %define disk_io_s
 ;@param #1 disk number 0x00 for first floppy and 0x80 for first hard drive
-%include 'asmlib/video.S'
+%include 'asmlib/basicVideoService.S'
 reset_disk_system:
 	push bp
 	mov bp,sp
