@@ -184,7 +184,7 @@ fill_box:
 	pop dx
 	pop ax
 	add sp,8
-    pop bp
+    pop bp 
     ret
 
 %endif
